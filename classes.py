@@ -30,6 +30,15 @@ class Rental:
 
         return result
 
+    def frequent_renter_points(self):
+        # add frequent renter points
+        frequent_renter_points = 1
+        # add bonus
+        if (Movie.NEW_RELEASE == self.movie.movie_type) and (1 < self.days_rented):
+            frequent_renter_points += 1
+
+        return frequent_renter_points
+
 
 class Costumer:
     def __init__(self, name):
@@ -44,11 +53,7 @@ class Costumer:
         result = "Rental Record for {}\n".format(self.name)
 
         for element in self.rentals:
-            # add frequent renter points
-            frequent_renter_points += 1
-            # add bonus
-            if (element.movie.movie_type == Movie.NEW_RELEASE) and (element.days_rented > 1):
-                frequent_renter_points += 1
+            frequent_renter_points += element.frequent_renter_points()
 
             # show figures
             result += "\t" + element.movie.title + "\t" + str(element.amount_for()) + "\n"
