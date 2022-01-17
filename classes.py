@@ -16,7 +16,7 @@ class Rental:
         self.movie = movie
         self.days_rented = days_rented
 
-    def amount_for(self):
+    def charge(self):
         result = 0
 
         if self.movie.movie_type == "REGULAR":
@@ -49,7 +49,7 @@ class Costumer:
         self.rentals.append(arg)
 
     def total_charge(self):
-        return sum([element.amount_for() for element in self.rentals])
+        return sum([element.charge() for element in self.rentals])
 
     def total_frequent_renter_points(self):
         return sum([element.frequent_renter_points() for element in self.rentals])
@@ -59,7 +59,8 @@ class Costumer:
 
         for element in self.rentals:
             # show figures
-            result += "\t" + element.movie.title + "\t" + str(element.amount_for()) + "\n"
+            result += "\t" + element.movie.title + "\t" + str(element.charge()) + "\n"
+
         result += "Amount owed is {}\n".format(self.total_charge())
         result += "You earned {} frequent renter points".format(self.total_frequent_renter_points())
 
