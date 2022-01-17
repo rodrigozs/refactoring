@@ -24,6 +24,9 @@ class Movie:
 
         return result
 
+    def frequent_renter_points(self, days_rented):
+        return 2 if ((Movie.NEW_RELEASE == self.movie_type) and (1 < days_rented)) else 1
+
 
 class Rental:
     def __init__(self, movie, days_rented):
@@ -34,13 +37,7 @@ class Rental:
         return self.movie.charge(self.days_rented)
 
     def frequent_renter_points(self):
-        # add frequent renter points
-        frequent_renter_points = 1
-        # add bonus
-        if (Movie.NEW_RELEASE == self.movie.movie_type) and (1 < self.days_rented):
-            frequent_renter_points += 1
-
-        return frequent_renter_points
+        return self.movie.frequent_renter_points(self.days_rented)
 
 
 class Costumer:
