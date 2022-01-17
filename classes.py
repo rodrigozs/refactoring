@@ -4,7 +4,7 @@
 class Movie:
     REGULAR = 0
     NEW_RELEASE = 1
-    CHILDREND = 2
+    CHILDRENS = 2
 
     def __init__(self, title, movie_type):
         self.title = title
@@ -15,6 +15,20 @@ class Rental:
     def __init__(self, movie, days_rented):
         self.movie = movie
         self.days_rented = days_rented
+
+    def amount_for(self):
+        result = 0
+
+        if self.movie.movie_type == "REGULAR":
+            result += 2
+            result += (self.days_rented - 2) * 1.5 if self.days_rented > 2 else 0
+        elif self.movie.movie_type == "NEW_RELEASE":
+            result += self.days_rented * 3
+        elif self.movie.movie_type == "CHILDRENS":
+            result += 1.5
+            result += (self.days_rented - 3) * 1.5 if self.days_rented > 3 else 0
+
+        return result
 
 
 class Costumer:
@@ -30,16 +44,7 @@ class Costumer:
         result = "Rental Record for {}\n".format(self.name)
 
         for element in self.rentals:
-            this_amount = 0
-
-            if element.movie.movie_type == "REGULAR":
-                this_amount += 2
-                this_amount += (element.days_rented - 2) * 1.5 if element.days_rented > 2 else 0
-            elif element.movie.movie_type == "NEW_RELEASE":
-                this_amount += element.days_rented * 3
-            elif element.movie.movie_type == "CHILDRENS":
-                this_amount += 1.5
-                this_amount += (element.days_rented - 3) * 1.5 if element.days_rented > 3 else 0
+            this_amount = element.amount_for()
 
             # add frequent renter points
             frequent_renter_points += 1
@@ -53,6 +58,8 @@ class Costumer:
 
         result += "Amount owed is {}\n".format(total_amount)
         result += "You earned {} frequent renter points".format(frequent_renter_points)
+
+        print(result)
 
         return {"total_amount": total_amount,
                 "frequent_renter_points": frequent_renter_points}
