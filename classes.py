@@ -10,6 +10,20 @@ class Movie:
         self.title = title
         self.movie_type = movie_type
 
+    def charge(self, days_rented):
+        result = 0
+
+        if self.movie_type == "REGULAR":
+            result += 2
+            result += (days_rented - 2) * 1.5 if days_rented > 2 else 0
+        elif self.movie_type == "NEW_RELEASE":
+            result += days_rented * 3
+        elif self.movie_type == "CHILDRENS":
+            result += 1.5
+            result += (days_rented - 3) * 1.5 if days_rented > 3 else 0
+
+        return result
+
 
 class Rental:
     def __init__(self, movie, days_rented):
@@ -17,18 +31,7 @@ class Rental:
         self.days_rented = days_rented
 
     def charge(self):
-        result = 0
-
-        if self.movie.movie_type == "REGULAR":
-            result += 2
-            result += (self.days_rented - 2) * 1.5 if self.days_rented > 2 else 0
-        elif self.movie.movie_type == "NEW_RELEASE":
-            result += self.days_rented * 3
-        elif self.movie.movie_type == "CHILDRENS":
-            result += 1.5
-            result += (self.days_rented - 3) * 1.5 if self.days_rented > 3 else 0
-
-        return result
+        return self.movie.charge(self.days_rented)
 
     def frequent_renter_points(self):
         # add frequent renter points
