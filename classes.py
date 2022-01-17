@@ -48,24 +48,25 @@ class Costumer:
     def add_rental(self, arg):
         self.rentals.append(arg)
 
+    def total_charge(self):
+        return sum([element.amount_for() for element in self.rentals])
+
+    def total_frequent_renter_points(self):
+        return sum([element.frequent_renter_points() for element in self.rentals])
+
     def statement(self):
-        total_amount, frequent_renter_points = 0, 0
         result = "Rental Record for {}\n".format(self.name)
 
         for element in self.rentals:
-            frequent_renter_points += element.frequent_renter_points()
-
             # show figures
             result += "\t" + element.movie.title + "\t" + str(element.amount_for()) + "\n"
-            total_amount += element.amount_for()
-
-        result += "Amount owed is {}\n".format(total_amount)
-        result += "You earned {} frequent renter points".format(frequent_renter_points)
+        result += "Amount owed is {}\n".format(self.total_charge())
+        result += "You earned {} frequent renter points".format(self.total_frequent_renter_points())
 
         print(result)
 
-        return {"total_amount": total_amount,
-                "frequent_renter_points": frequent_renter_points}
+        return {"total_amount": self.total_charge(),
+                "frequent_renter_points": self.total_frequent_renter_points()}
 
 
 if __name__ == "__main__":
