@@ -44,8 +44,6 @@ class Costumer:
         result = "Rental Record for {}\n".format(self.name)
 
         for element in self.rentals:
-            this_amount = element.amount_for()
-
             # add frequent renter points
             frequent_renter_points += 1
             # add bonus
@@ -53,8 +51,8 @@ class Costumer:
                 frequent_renter_points += 1
 
             # show figures
-            result += "\t" + element.movie.title + "\t" + str(this_amount) + "\n"
-            total_amount += this_amount
+            result += "\t" + element.movie.title + "\t" + str(element.amount_for()) + "\n"
+            total_amount += element.amount_for()
 
         result += "Amount owed is {}\n".format(total_amount)
         result += "You earned {} frequent renter points".format(frequent_renter_points)
